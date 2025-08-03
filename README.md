@@ -6,11 +6,12 @@ The code is currently only targeting an RP2350 and unless you, yes you, decide t
 
 This repo mostly exists for me, so that I have quick and easy access to the functions in my projects using PlatformIO.
 
-> [!NOTE] Going forward, when I am referring to `fix32` AND `fix64`, I will just call it `fix` for simplicity. If something only applies to one of the types, I will call it `fix32` or `fix64`.
+> [!NOTE]
+> Going forward, when I am referring to `fix32` AND `fix64`, I will just call it `fix` for simplicity. If something only applies to one of the types, I will call it `fix32` or `fix64`.
 
 ## Usage
 
-1. Somehow install it in your project, e.g. adding this repo to your `lib_deps` in PlatformIO or downloading and adding the ZIP to your Arduino project.
+1. Somehow install it in your project, e.g. by adding this repo to your `lib_deps` in PlatformIO or downloading and adding the ZIP to your Arduino project.
 2. Declare `fix` numbers the same way you would normally declare ints or floats. The operators are overridden, so you can just use these numbers like any other types. `a = b * c` and so on, you know.
 3. You can also use ints, floats etc. in your operations as long as the fix is the first (fix + int works, but int + fix does not). If you need that (for things like 1 / a, write `fix(1) / a`)
 
