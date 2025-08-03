@@ -76,10 +76,15 @@ void loop(){
 
 -   Fixed points have a fixed precision (as in: step) for all calculations. Let's call it eps. For fix32, eps is 1/65536, and for fix64, eps is 2^-32 (roughly 1/4bn). This why they are called _fixed_. Floats and doubles have a precision that is relative to the magnitude of the number. Their decimal point (actually binary but whatever) slides (_floats_). This makes floats slower to compute but usually more versatile.
 -   There are min and max values for fixed point ints. You can find them at `FIX32_MIN` (-32768), `FIX32_MAX` (+32768 - eps), `FIX64_MIN` (-2^31, roughly -2bn) and `FIX64_MAX` (+2^31 - eps, roughly +2bn).
+-   There are also constants available for Pi etc: `FIX_PI`, `FIX_PI_2`, `FIX_PI_4`, `FIX_3PI_4`, `FIX_2_PI`, `FIX_1_PI`, `FIX_TWOPI`, `FIX_SQRTPI`, `FIX_SQRT2`, `FIX_SQRT1_2`, `FIX_E`, `FIX_LOG2E`, `FIX_LOG10E`, `FIX_LN2`, `FIX_LN10`
 -   When assigning values, they are always rounded towards 0 to the nearest available fix step.
 -   The RP2350 has an FPU. During my testing, I found that this library is still faster, but loses quite a bit of its advantage compared to back when I used it on an RP2040. The biggest advantages come in the trigonometric functions and sqrt and when using the raw values with other interpolation methods.
 -   All of the basics are coded in a way that the compiler inlines them. This has two advantages:
     1.  Faster: The CPU does not need to jump into and out of a function
     2.  Constants and constexpr: The compiler automatically does as much as possible during compilation so that stuff like `fix32 a = b * 2.3` does not actually do _any_ floating point math on the microcontroller (given b is fix, too). The literal 2.3 is automatically converted to a fix at compile time!
 -   Overflow: Because it is all implemented using ints, overflow happens the same way as with normal ints. If you write `fix32 a = 32769`, it will actually assign a value of -32767. Similarly with additions etc.
--   fix64 cannot be divided by another fix64. Please convert the divisor to fix32, floats, doubles, whatever you want. Implementing this would require dividing a 96 bit value by a 64 bit value. No clue how to do that and, honestly speaking, this is a very rare case.
+-   fix64 cannot be divided by another fix64. Please convert the values to fix32, floats, doubles, whatever you want. Implementing this would require dividing a 96 bit value by a 64 bit value. No clue how to do that, and, honestly speaking, this is a very rare case.
+
+## Examples
+
+There are none, haha. But you can check out my [flight controller](https://github.com/bastian2001/Kolibri-FC/blob/5b1625858ee2d05af3bae6ff0e256acd3157242d/Firmware/src/pid.cpp) where I use them extensively.
