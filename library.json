@@ -1,0 +1,22 @@
+{
+	"$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+	"name": "Fixed-Point-int",
+	"version": "0.1.0",
+	"keywords": "data, float, int",
+	"build": {
+		"libLDFMode": "off"
+	},
+	"description": "Fixed Point int library for the RP2350. Implements two classes fix32 (16.16) and fix64 (32.32) which can largely be used just like regular floats, except with speed and handling benefits of integers.",
+	"authors": [
+		{
+			"name": "Bastian2001",
+			"url": "https://github.com/bastian2001",
+			"maintainer": true
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bastian2001/Fixed-Point-int.git"
+	},
+	"frameworks": "arduino"
+}
