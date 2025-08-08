@@ -4,7 +4,7 @@
 fix32 sinLut[257];
 fix32 cosLut[257];
 fix32 atanLut[257];
-fix32 acosLut[257];
+fix32 asinLut[257];
 fix32 sqrtLut[769];
 
 interp_config fixMathInterpConfig0, fixMathInterpConfig1;
@@ -14,7 +14,7 @@ void initFixMath() {
 		sinLut[i] = sin(i * M_PI / 256);
 		cosLut[i] = cos(i * M_PI / 256);
 		atanLut[i] = atan(i / 256.);
-		acosLut[i] = FIX_PI / 2 - acos(i / 256.);
+		asinLut[i] = FIX_PI / 2 - acos(i / 256.);
 	}
 	for (int i = 0; i <= 768; i++) {
 		sqrtLut[i] = sqrt((i + 256) / 256.);
@@ -85,15 +85,26 @@ fix32 atan2Fix(const fix32 y, const fix32 x) {
 	return FIX_PI / 2 * y.sign();
 }
 
+fix32 asinFix(fix32 x) {
+	i32 sign = x.sign();
+	x *= sign;
+	if (x >= 1) return FIX_PI_2 * sign; // if abs >= 1, assume the value was +-1
+	u32 high = x.raw >> 8;
+	interp0->accum[1] = x.raw;
+	interp0->base[0] = asinLut[high].raw;
+	interp0->base[1] = asinLut[high + 1].raw;
+	return fix32().setRaw((i32)interp0->peek[1] * sign);
+}
+
 fix32 acosFix(fix32 x) {
 	i32 sign = x.sign();
 	x *= sign;
 	if (x >= 1) return FIX_PI_2 - FIX_PI_2 * sign; // if abs >= 1, assume the value was +-1
 	u32 high = x.raw >> 8;
 	interp0->accum[1] = x.raw;
-	interp0->base[0] = acosLut[high].raw;
-	interp0->base[1] = acosLut[high + 1].raw;
-	return FIX_PI / 2 - fix32().setRaw((i32)interp0->peek[1] * sign);
+	interp0->base[0] = asinLut[high].raw;
+	interp0->base[1] = asinLut[high + 1].raw;
+	return FIX_PI_2 - fix32().setRaw((i32)interp0->peek[1] * sign);
 }
 
 /**
