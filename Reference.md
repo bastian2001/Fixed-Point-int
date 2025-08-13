@@ -12,7 +12,7 @@
 -   The operators `>>`, `<<` shift the internal raw number using the normal shift operators.
 -   Unary operator `-` (e.g. `a = -b`) is supported and negates the number.
 -   Casting to a bool (`bool b = (bool) a`, `if (a)`) will return `true` for any value other than _exactly_ zero.
--   Comparison operators `>`, `<`, `>=`, `<=`, `==`, `!=` are available. Just like with floats, rounding errors can occor (albeit a bit more predictable when they happen), thus use `==` and `!=` with caution.
+-   Comparison operators `>`, `<`, `>=`, `<=`, `==`, `!=` are available. Just like with floats, rounding errors can occor (though only for division/multiplication, and very predictable), thus use `==` and `!=` with caution. If a result of an operation can be exactly reproduced using fix, it will be that. I am only talking about stuff like `y = x * 4; y /= 5; y *= fix32(5)/4;` Usually, y != x after this operation, despite being mathematically identical.
 
 ### More member functions
 
@@ -24,7 +24,7 @@
 
 ## Math functions
 
-I ported many math functions for quick usage. If one is missing and you have no idea how this function could be implemented using fix numbers, just convert the fix to a float or double, do your thing, and convert it back, e.g. `fix32 a = pow(b.getf32(), c.getf32());`. The following functions generally behave like their C counterparts (if such exists). Check their doxygen comments for info on precision.
+I ported many math functions for quick usage. If one is missing and you have no idea how this function could be implemented using fix numbers, just convert the fix to a float or double, do your thing, and convert it back, e.g. `fix32 a = pow(b.getf32(), c.getf32());`. The following functions generally behave like their C counterparts (if such exists). Check their doxygen comments for info on precision (precision is within a few LSB, i.e. usually well below 0.1%, because the LUTs are quite precise at reconstructing the original shapes).
 
 -   `fix32 sinFix(const fix32 x);`
 -   `fix32 cosFix(const fix32 x);`
